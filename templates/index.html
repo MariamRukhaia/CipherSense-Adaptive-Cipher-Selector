@@ -1,0 +1,98 @@
+<div id="boot-screen">
+    <div id="boot-text">
+        [BOOT] Initializing Cipher Intelligence Suite…<br>
+        [OK] Loading cryptographic modules…<br>
+        [OK] Establishing secure session…<br>
+        [OK] Cipher database loaded.<br>
+        [SYSTEM] Online. Welcome, Operator.
+    </div>
+</div>
+
+
+{% extends "base.html" %}
+{% block content %}
+
+<section id="intro" class="section">
+    <div class="cyber-card intro-card">
+        <h1 class="title">🔐 Cipher Intelligence Suite</h1>
+        <p class="intro-text">
+            This platform empowers you to explore modern and legacy block ciphers, understand their architectures, compare cryptographic strength, and learn which systems they protect. Build intuition, uncover design patterns, and choose the algorithm that best fits your technical environment.
+        </p>
+
+        <button class="cyber-btn" onclick="scrollToSection('showcase')">
+            Begin Exploring ↓
+        </button>
+    </div>
+</section>
+
+
+<section id="showcase" class="section">
+    <h1 class="title">Explore Block Ciphers</h1>
+    <p class="subtitle">Click any cipher to learn more.</p>
+
+    <div class="cipher-panel">
+
+        {% for shuffled in shuffled_rows %}
+        <div class="cipher-row">
+            <div class="cipher-track">
+    
+                {% for cipher in shuffled %}
+                <div class="cipher-card" onclick="openCipherModal('{{ cipher['NAME'] }}')">
+                    {{ cipher['NAME'] }}
+                </div>
+                {% endfor %}
+    
+                {% for cipher in shuffled %}
+                <div class="cipher-card" onclick="openCipherModal('{{ cipher['NAME'] }}')">
+                    {{ cipher['NAME'] }}
+                </div>
+                {% endfor %}
+    
+            </div>
+        </div>
+        {% endfor %}
+        
+    </div>
+    
+
+    <div class="center">
+        <button class="cyber-btn large-btn" onclick="scrollToSection('wizard-section')">
+            Not sure which one to choose? Take the questionnaire →
+        </button>
+    </div>
+</section>
+
+
+<script>
+    window.cipherInfo = {{ cipher_info | safe }};
+</script>
+
+
+
+<section id="wizard-section" class="section">
+    <div class="cyber-card selector-panel">
+        <h2 class="title">Adaptive Cipher Selector</h2>
+
+        <p class="subtitle selector-subtitle">
+            Answer a few questions and get your ideal block cipher recommendation
+            based on your needs.
+        </p>
+
+        <a href="{{ url_for('wizard') }}" class="selector-btn-wrapper">
+            <button class="cyber-btn large-btn">Start the Questionnaire →</button>
+        </a>
+    </div>
+</section>
+
+
+<div id="cipherModal" class="modal-overlay" onclick="closeCipherModal(event)">
+    <div class="modal-card">
+        <span class="close-btn" onclick="closeCipherModal(event)">✕</span>
+        <h2 id="cipherTitle"></h2>
+        <p id="cipherDetails"></p>
+        <a id="cipherLink" href="#" target="_blank" class="cyber-btn">Learn More</a>
+    </div>
+</div>
+    
+
+{% endblock %}

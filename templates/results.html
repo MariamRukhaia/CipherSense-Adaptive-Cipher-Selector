@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="results-section">
+    <div class="results-card">
+
+        <h1 class="title">✨ Recommended Ciphers</h1>
+
+        {% if results|length == 0 %}
+            <p class="no-results">No cipher matches all selected constraints.</p>
+        {% else %}
+
+            {% for item in results %}
+            <div class="cipher-result">
+                <h2 class="cipher-name">
+                    {{ loop.index }}. {{ item.name }}
+                    <span class="score">(Score: {{ item.pref_score }})</span>
+                </h2>
+
+                <div class="cipher-grid">
+                    <p><strong>Security:</strong> {{ item.security }}</p>
+                    <p><strong>Block Size:</strong> {{ item.block_size }}</p>
+                    <p><strong>Key Sizes:</strong> {{ item.key_sizes }}</p>
+                    <p><strong>Standardized:</strong> {{ item.standardized }}</p>
+                    <p><strong>Low Power:</strong> {{ item.low_power }}</p>
+                    <p><strong>Processing:</strong> {{ item.processing }}</p>
+                    <p><strong>Use:</strong> {{ item.common_use }}</p>
+                    <p><strong>Hardware Accel:</strong> {{ item.ha }}</p>
+                    <p><strong>TLS:</strong> {{ item.tls }}</p>
+                    <p><strong>Storage:</strong> {{ item.storage }}</p>
+                    <p><strong>Streaming:</strong> {{ item.stream }}</p>
+                </div>
+
+                {% if item.vuln %}
+                    <p class="vuln"><strong>Weaknesses:</strong> {{ item.vuln }}</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+
+        {% endif %}
+
+        <div class="center">
+            <a href="{{ url_for('wizard') }}" class="cyber-btn">
+                Restart Questionnaire →
+            </a>
+        </div>
+
+    </div>
+</section>
+
+{% if all_candidates %}
+<div class="extra-container">
+    <button class="cyber-btn" onclick="toggleExtra()">Show more matching ciphers ↓</button>
+
+    <div id="extra-results" style="display:none;">
+        {% for item in all_candidates %}
+        <div class="mini-card">
+            <span class="mini-name">{{ item.name }}</span>
+            <span class="mini-score">Score {{ item.pref_score }}</span>
+        </div>
+        
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

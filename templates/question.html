@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="section question-section">
+
+    <div class="cyber-card question-card">
+        
+        <h3 class="question-text">{{ prompt }}</h3>
+
+        <p class="remaining">
+            Remaining ciphers: {{ candidate_count }}
+        </p>
+
+        <form method="POST" class="answers-container">
+            <input type="hidden" name="qid" value="{{ qid }}">
+
+            {% for opt in options %}
+                <button class="answer-btn" type="submit" name="answer" value="{{ loop.index0 }}">
+                    {{ opt }}
+                </button>
+            {% endfor %}
+        </form>
+    </div>
+
+</section>
+
+{% endblock %}
