@@ -1,9 +1,10 @@
 from flask import Flask, render_template, request, session
 from adaptive import compute_step  
 import csv, json, random
+import os
 
 app = Flask(__name__)
-app.secret_key = "123"  
+app.secret_key = os.environ.get("SECRET_KEY", "dev-secret-key")
 
 @app.route("/")
 def index():
@@ -67,4 +68,4 @@ def wizard():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
